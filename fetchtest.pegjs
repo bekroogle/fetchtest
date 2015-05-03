@@ -4,7 +4,7 @@
     user: "bekroogle",
     repo: "fetchtest"
   };
-  
+
   pegedit_opts = {treenav:"collapse"};
   return_val = [];
   
@@ -666,7 +666,7 @@ HASH           = operator:"#"      { return operator; }
 OPEN_BRACKET   = operator:'['  WS  { return operator; }
 SPOT "decimal" = operator:'.'  WS  { return operator; }
 QUOTE          = operator:"'"      { return operator; }
-SEMI_COLON     = operator:';'  WS  { return operator; }
+SEMI_COLON     = operator:';'  WSNL  { return operator; }
 
 // Arithmetic operators:
 ASSIGN_OP      = operator:'='  WS  { return operator; }
