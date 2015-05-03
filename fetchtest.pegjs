@@ -423,18 +423,17 @@
  * Grammar:                                                                *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-program        = WS stmts:(statement SEMI_COLON)* { return {construct: "program", name: "program", children: stmts}; }
+program        = WS stmts:statement* { return {construct: "program", name: "program", children: stmts}; }
 
-statement "statement" = stmt:(
-                        fetch_stmt          /* fetch bekroogle/cspotrun */
-                      / proc_def            /* proc myproc: <stmts> end proc */
+statement "statement" = fetch_stmt / stmt:(
+                        proc_def            /* proc myproc: <stmts> end proc */
                       / proc_call           /* do myproc */
                       / declare_stmt        /* int i [or] int i = 3 */
                       / assign_stmt         /* let i = i + 1 */
                       / ifthen_stmt         /* if i < 2: <stmts> end if */
                       / count_loop
                       / loop_stmt           /* while i < 2: <stmts> repeat */
-                      / print_stmt) WSNL { return stmt; } /* print 2+2 */
+                      / print_stmt) SEMI_COLON WSNL { return stmt; } /* print 2+2 */
 
 
 line_comment "comment"= HASH (!NL .)* WSNL
@@ -666,7 +665,7 @@ HASH           = operator:"#"      { return operator; }
 OPEN_BRACKET   = operator:'['  WS  { return operator; }
 SPOT "decimal" = operator:'.'  WS  { return operator; }
 QUOTE          = operator:"'"      { return operator; }
-SEMI_COLON     = operator:';'  WSNL  { return operator; }
+SEMI_COLON     = operator:';'  WS  { return operator; }
 
 // Arithmetic operators:
 ASSIGN_OP      = operator:'='  WS  { return operator; }
