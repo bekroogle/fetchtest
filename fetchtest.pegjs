@@ -1,6 +1,10 @@
 //test
 { 
-  language = "bekroogle/cspotrun";
+  language = {
+    user: "bekroogle",
+    repo: "fetchtest"
+  };
+  
   pegedit_opts = {treenav:"collapse"};
   return_val = [];
   
@@ -224,18 +228,20 @@
   };
   var traverse_fetch_stmt = function(ast) {
     console.log(ast);
-    if(ast.child_objs.language === language) {
-      console.log("already using " + ast.child_objs.language);
+    if(language.user === ast.child_objs.user.name &&
+       language.repo === ast.child_objs.repo.name) {
+      console.log("already using " + ast.child_objs.user.name);
     } else {
       var contents_uri = "https:/api.github.com/repos/"+ ast.child_objs.user.name +"/"+ 
           ast.child_objs.repo.name + "/contents/"+ ast.child_objs.repo.name +".pegjs";
       $.get(contents_uri, function(repo) {
+//        parser = PEG.buildParser(atob(repo.content));
+     
         parser = PEG.buildParser(atob(repo.content));
       });
     }
-    console.log(PEG);
-    console.log(parser);
     console.log(language);
+
   };
   var traverse_if_else = function(ast) {
     if (traverse(ast.child_objs["if_part"].child_objs["condition"])) {
@@ -433,7 +439,7 @@ statement "statement" = stmt:(
 
 line_comment "comment"= HASH (!NL .)* WSNL
 
-fetch_stmt       = f:FETCH user:ID DIVIDE repo:ID {return {construct: "fetch_stmt", name: "fetch_stmt", child_objs: {"user": user, "repo": repo}, children: [{name: f}, user, repo]}}
+fetch_stmt       = f:FETCH user:ID DIVIDE repo:ID {return {construct: "fetch_stmt", name: "fetch_stmt", child_objs: {"user": user, "repo": repo}, children: [user, repo]};}
 
 /* * * * * * * * * * * * * * * * * * 
  * PROCEDURE CONSTRUCTS            *
