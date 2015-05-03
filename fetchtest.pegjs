@@ -425,7 +425,9 @@
 
 program        = WS stmts:statement* { return {construct: "program", name: "program", children: stmts}; }
 
-statement "statement" = fetch_stmt / stmt:(
+statement "statement" = fetch_stmt 
+                      / other_stmt
+other_stmt            = stmt:(
                         proc_def            /* proc myproc: <stmts> end proc */
                       / proc_call           /* do myproc */
                       / declare_stmt        /* int i [or] int i = 3 */
