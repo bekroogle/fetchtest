@@ -13,7 +13,7 @@
   };
 }
 
-add   = l:fact '+' r:add {return {name: 'sum', children: [l, r] }; }
+add   = l:fact '+' r:add {return traverse({name: 'sum', children: [l, r]}); }
       / fact
 
 fact  = l:term '*' r:fact {return {name: 'mult', children: [l, r] }; }
