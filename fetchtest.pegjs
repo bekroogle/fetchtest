@@ -1,6 +1,7 @@
 {
   pegedit_opts = { treenav: 'collapse' };
-  traverse = function(ast){
+  
+  function traverse(ast){
     if (typeof ast !== undefined) {
       switch (ast.name) {
         case 'sum': return traverse(ast.children[0]) + traverse(ast.children[1]);
